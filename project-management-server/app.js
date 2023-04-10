@@ -5,6 +5,9 @@ require("dotenv").config();
 // ℹ️ Connects to the database
 require("./db");
 
+
+const { isAuthenticated } = require("./middleware/jwt.middleware");
+
 // Handles http requests (express is node js framework)
 // https://www.npmjs.com/package/express
 const express = require("express");
@@ -15,12 +18,13 @@ const app = express();
 require("./config")(app);
 
 // 👇 Start handling routes here
-const indexRoutes = require("./routes/index.routes");
-app.use("/api", indexRoutes);
+app.use("/api", require("./routes/index.routes"));
 
-app.use("/api", require("./routes/project.routes"));
+app.use("/api", isAuthenticated, require("./routes/project.routes"));
 
-app.use("/api", require("./routes/task.routes"));
+app.use("/api", isAuthenticated, require("./routes/task.routes"));
+
+app.use("/auth", require("./routes/auth.routes")); 
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);

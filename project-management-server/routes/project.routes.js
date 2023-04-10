@@ -67,6 +67,6 @@ router.get('/projects/:projectId', (req, res, next) => {
     Project.findByIdAndRemove(projectId)
       .then(() => res.json({ message: `Project with ${projectId} is removed successfully.` }))
       .catch(error => res.json(error));
-  });
+  }); 
 
 module.exports = router;

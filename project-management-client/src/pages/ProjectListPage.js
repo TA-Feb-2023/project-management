@@ -6,7 +6,7 @@ import ProjectCard from "../components/ProjectCard";
 function ProjectListPage() {
   const [projects, setProjects] = useState([]);
 
-  const API_URL = "http://localhost:5005";
+  const API_URL = "http://localhost:5005" 
 
   const getAllProjects = () => {
     axios

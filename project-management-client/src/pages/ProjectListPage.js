@@ -1,16 +1,14 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import projectsService from "../services/projects.service";
 import AddProject from "../components/AddProject";
 import ProjectCard from "../components/ProjectCard";
 
 function ProjectListPage() {
   const [projects, setProjects] = useState([]);
 
-  const API_URL = "http://localhost:5005" 
-
   const getAllProjects = () => {
-    axios
-      .get(`${API_URL}/api/projects`)
+   
+    projectsService.getAllProjects()
       .then((response) => setProjects(response.data))
       .catch((error) => console.log(error));
   };
@@ -19,6 +17,7 @@ function ProjectListPage() {
   // by setting the empty dependency array - []
   useEffect(() => {
     getAllProjects();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

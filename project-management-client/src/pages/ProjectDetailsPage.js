@@ -11,11 +11,13 @@ function ProjectDetailsPage (props) {
   const { projectId } = useParams();
   const API_URL = "http://localhost:5005"
 
+  const storedToken = localStorage.getItem("authToken");
+
   // Helper function that makes a GET request to the API
   // and retrieves the project by id
   const getProject = () => {
     axios
-      .get(`${API_URL}/api/projects/${projectId}`)
+      .get(`${API_URL}/api/projects/${projectId}`, { headers: { Authorization: `Bearer ${storedToken}` } })
       .then((response) => {
         const oneProject = response.data;
         setProject(oneProject);

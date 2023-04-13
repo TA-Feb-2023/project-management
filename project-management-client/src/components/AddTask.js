@@ -1,13 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
 
-const API_URL = "http://localhost:5005";
-
 
 function AddTask(props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
+  const storedToken = localStorage.getItem("authToken");
+
+  const API_URL = "http://localhost:5005";
   
   const handleSubmit = (e) => {  
     e.preventDefault();
@@ -18,7 +19,7 @@ function AddTask(props) {
     const requestBody = { title, description, projectId };
  
     axios
-      .post(`${API_URL}/api/tasks`, requestBody)
+      .post(`${API_URL}/api/tasks`, requestBody, { headers: { Authorization: `Bearer ${storedToken}` } })
       .then((response) => {
         // Reset the state to clear the inputs
         setTitle("");

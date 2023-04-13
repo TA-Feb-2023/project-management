@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import projectsService from "../services/projects.service";
 import { useNavigate, useParams } from "react-router-dom";
 
 function EditProjectPage(props) {
@@ -9,11 +9,9 @@ function EditProjectPage(props) {
   const { projectId } = useParams();  
   const navigate = useNavigate();
 
-  const API_URL = "http://localhost:5005"
-
   useEffect(() => {         
-    axios
-      .get(`${API_URL}/api/projects/${projectId}`)
+
+    projectsService.getProject(projectId)
       .then((response) => {
         /* 
           We update the state with the project data coming from the response.
@@ -25,6 +23,7 @@ function EditProjectPage(props) {
       })
       .catch((error) => console.log(error));
     
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
 
   const handleFormSubmit = (e) => {          
@@ -33,8 +32,7 @@ function EditProjectPage(props) {
     const requestBody = { title, description };
  
     // Make a PUT request to update the project
-    axios
-      .put(`${API_URL}/api/projects/${projectId}`, requestBody)
+    projectsService.updateProject(projectId, requestBody)
       .then((response) => {
         // Once the request is resolved successfully and the project
         // is updated we navigate back to the details page
@@ -42,10 +40,9 @@ function EditProjectPage(props) {
       });
   };
 
-  const deleteProject = () => {                    //  <== ADD
+  const deleteProject = () => {                
     // Make a DELETE request to delete the project
-    axios
-      .delete(`${API_URL}/api/projects/${projectId}`)
+    projectsService.deleteProject(projectId)
       .then(() => {
         // Once the delete request is resolved successfully
         // navigate back to the list of projects.

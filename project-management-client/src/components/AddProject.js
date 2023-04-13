@@ -1,19 +1,17 @@
 
 import { useState } from "react";
-import axios from "axios";
+import projectsService from "../services/projects.service";
 
 function AddProject(props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  const API_URL = "http://localhost:5005"
-
   const handleSubmit = (e) => { 
     e.preventDefault();
  
     const requestBody = { title, description };
-    axios
-      .post(`${API_URL}/api/projects`, requestBody)
+   
+   projectsService.createProject(requestBody) 
       .then((response) => {
         // Reset the state
         setTitle("");
